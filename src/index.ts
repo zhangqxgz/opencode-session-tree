@@ -1,10 +1,9 @@
-// Server-side entry. The plugin is TUI-only for now; this no-op keeps the
-// package shape valid (`opencode plugin` expects a default export from ".").
-import { Plugin } from "@opencode/plugin"
-
-export default Plugin.define({
+// Server-side entry. The plugin is TUI-only; this no-op satisfies the server
+// loader, which requires a default export of { id, setup }.
+//
+// Zero imports on purpose: bare imports of `@opencode/plugin` are not
+// resolvable in the server process and would fail the whole package load.
+export default {
   id: "opencode-session-tree",
-  setup() {
-    // Intentionally empty. All functionality lives in the TUI entry (./tui).
-  },
-})
+  setup: () => {},
+}

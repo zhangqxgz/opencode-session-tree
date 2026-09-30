@@ -67,21 +67,36 @@ export default Plugin.define({
       context.ui.router.navigate({ type: "session", sessionID: target.latestSessionID })
     }
 
-    context.keymap.layer(() => ({
-      mode: "global",
-      priority: 10,
-      commands: [
-        {
-          id: "session-tree.open",
-          title: "Open session directory tree",
-          group: "Session Tree",
-          bind: "ctrl+alt+t",
-          palette: true,
-          slash: { name: "tree" },
-          run: openTree,
-        },
-      ],
-      bindings: ["session-tree.open"],
-    }))
+    // keymap.layer() internally calls useContext(KeymapProvider), which is only
+    // available inside the TUI component tree. Plugin setup runs outside it, so
+    // registering the layer inside a slot's render component (which mounts
+    // inside the host tree) is the reliable way — the layer disposes with the
+    // component on plugin unload.
+    let registered = false
+    context.ui.slot({
+      append: "app",
+      render: () => {
+        if (!registered) {
+          registered = true
+          context.keymap.layer(() => ({
+            mode: "global",
+            priority: 10,
+            commands: [
+              {
+                id: "session-tree.open",
+                title: "Open session directory tree",
+                group: "Session Tree",
+                bind: "ctrl+alt+t",
+                palette: true,
+                slash: { name: "tree" },
+                run: openTree,
+              },
+            ],
+            bindings: ["session-tree.open"],
+          }))
+        }
+        return null
+      },
+    })
   },
 })

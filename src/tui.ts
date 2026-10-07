@@ -47,7 +47,8 @@ export default Plugin.define({
         const isCurrent = line.node.fullPath === currentDir
         const time = fmtTime(line.node.lastActive)
         return {
-          title: (isCurrent ? "● " : "") + prefix(line.depth, line.isLast) + line.node.name,
+          // 当前目录标记放名字后面，保持树线列对齐（放行首会错位）
+          title: prefix(line.depth, line.isLast) + line.node.name + (isCurrent ? " ●" : ""),
           description: `${line.node.sessions} 会话${time ? " · " + time : ""}`,
           value: String(i),
         }

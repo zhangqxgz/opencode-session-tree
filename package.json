@@ -1,6 +1,6 @@
 {
   "name": "opencode-session-tree",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "OpenCode TUI plugin: press a hotkey to see a tree of all directories that have conversations, and jump to any of them",
   "type": "module",
   "exports": {

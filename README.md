@@ -47,7 +47,16 @@ git clone https://github.com/zhangqxgz/opencode-session-tree ~/.config/opencode/
 
 然后**退出 TUI 重进**（TUI 插件在 TUI 启动时加载），即可使用。
 
-### 方式二：Git 直装
+### 方式二：Release zip（免 git）
+
+从 [Releases](https://github.com/zhangqxgz/opencode-session-tree/releases) 下载 `opencode-session-tree-vX.Y.Z.zip`，解压到 OpenCode 插件目录：
+
+```bash
+mkdir -p ~/.config/opencode/plugins
+unzip opencode-session-tree-v*.zip -d ~/.config/opencode/plugins/
+```
+
+### 方式三：Git 直装
 
 ```sh
 opencode plugin add github:zhangqxgz/opencode-session-tree

@@ -32,4 +32,21 @@ OpenCode TUI 插件：快捷键树状展示所有有对话的目录并跳转。
 
 便携 bun 在 `/tmp/opencode/bun-linux-x64/bun`（/tmp 重启即失）：`bun build src/tui.ts --external @opencode/plugin/tui --outfile /dev/null` 查语法；数据层测试脚本参考 git 首个提交里的 test-db.ts。
 
-GitHub: https://github.com/zhangqxgz/opencode-session-tree（已推送 v0.1.0 + Release）
+GitHub: https://github.com/zhangqxgz/opencode-session-tree（已推送，v0.1.1 含 Release zip）
+
+## 发版流程（定式）
+
+```bash
+# 1. 改 package.json version + README，提交推送
+# 2. 打 tag 并推送
+git tag -a vX.Y.Z -m "..." && git push origin main --tags
+# 3. 打 zip（纯源码零依赖，git archive 即可，无需构建）
+git archive --format=zip -o /mnt/c/dev/code/opencode-session-tree-vX.Y.Z.zip --prefix=opencode-session-tree/ vX.Y.Z
+# 4. 发 Release —— gh.exe 是 Windows 程序，附件必须给 Windows 路径（C:\dev\code\），
+#    notes 用 --notes-file 传文件（避免反斜杠转义）
+"/mnt/c/Program Files/GitHub CLI/gh.exe" release create vX.Y.Z \
+  "C:\dev\code\opencode-session-tree-vX.Y.Z.zip" --title "..." --notes-file "C:\dev\code\_notes.md"
+```
+
+- 本机推送凭证：WSL git 用 ~/.git-credentials（600，store helper）；gh.exe 用 Windows keyring（同账号 zhangqxgz）
+- v0.1.1（2026-10-07）：修复 ● 标记树线错位（标记放名字末尾，不能放行首——等宽渲染会错位）
